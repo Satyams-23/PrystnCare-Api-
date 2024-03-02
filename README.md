@@ -1,6 +1,6 @@
 git add .
-git commit -m "Server.ts done"
-git branch -M main
+git commit -m " done"
+git branch -M master
 git remote add origin git@github.com:Satyams-23/PrystnCare-Api.git
-git pull origin main
-git push -u origin main
+git pull origin master
+git push -u origin master
