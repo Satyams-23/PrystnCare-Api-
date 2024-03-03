@@ -3,6 +3,6 @@ import { SortOrder } from "mongoose";
 export type IPaginationOPtions = {
   page: number;
   limit: number;
-  sortBy: string;
-  sortOrder: SortOrder;
+  sortBy: string; // "createdAt" | "updatedAt"
+  sortOrder: SortOrder; // "asc" | "desc"
 };
