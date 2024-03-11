@@ -1,8 +1,7 @@
 import express from "express";
 import config from "./config";
-import app from "./app";
 import { Server } from "http";
-import { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const app = express();
 const port = 3000;
@@ -17,7 +16,7 @@ let server: Server;
 
 async function startServer() {
   try {
-    await mongo.connect(config.database_url as string);
+    await mongoose.connect(config.database_url as string);
     console.log("Connected to database");
 
     app.listen(config.port, () => {
