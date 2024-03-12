@@ -24,8 +24,9 @@ let server;
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            // Database is connected
             yield mongoose_1.default.connect(config_1.default.database_url);
-            console.log('Connected to database');
+            console.log('Database is connected successfully');
             app_1.default.listen(config_1.default.port, () => {
                 console.log(`Aplication listening on port ${config_1.default.port}`);
             });
