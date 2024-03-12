@@ -27,9 +27,7 @@ const moduleRoutes = [
         // route: PatientRoutes,
     },
 ];
-moduleRoutes
-    .filter(route => route.route !== undefined)
-    .forEach(route => {
+moduleRoutes.forEach(route => {
     if (route.route) {
         router.use(route.path, route.route);
     }
