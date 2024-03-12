@@ -1,41 +1,41 @@
-import express from "express";
-import { AuthController } from "./Auth.Controller";
-import validateRequest from "../../../middleware/validateRequest";
-import { AuthValidation } from "./Auth.Validation";
+import express from 'express';
+import { AuthController } from './Auth.Controller';
+import validateRequest from '../../../middleware/validateRequest';
+import { AuthValidation } from './Auth.Validation';
 
-import cors from "cors";
-import { Auth } from "./Auth.Model";
+import cors from 'cors';
+import { Auth } from './Auth.Model';
 
 const router = express.Router();
 
-router.post("/logout", AuthController.logoutUser);
+router.post('/logout', AuthController.logoutUser);
 
 router.post(
-  "/signup",
+  '/signup',
   cors(),
   validateRequest(AuthValidation.signUpsignInZodSchema),
-  AuthController.signupWithPhoneNumber
+  AuthController.signupWithPhoneNumber,
 );
 
 router.post(
-  "/signupverifyotp",
+  '/signupverifyotp',
   cors(),
   validateRequest(AuthValidation.otpVerifyZodSchema),
-  AuthController.signupverifyOtp
+  AuthController.signupverifyOtp,
 );
 
 router.post(
-  "/signin",
+  '/signin',
   cors(),
   validateRequest(AuthValidation.signUpsignInZodSchema),
-  AuthController.signinWithPhoneNumber
+  AuthController.signinWithPhoneNumber,
 );
 
 router.post(
-  "/signinverifyotp",
+  '/signinverifyotp',
   cors(),
   validateRequest(AuthValidation.otpVerifyZodSchema),
-  AuthController.signinverifyOtp
+  AuthController.signinverifyOtp,
 );
 
-export default router;
+export const AuthRoutes = router;

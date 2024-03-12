@@ -1,0 +1,32 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CountryCode = void 0;
+exports.CountryCode = [
+    'AC',
+    'AD',
+    'AE',
+    'AF',
+    'AG',
+    'AI',
+    'AL',
+    'AM',
+    'AO',
+    'AR',
+    'AS',
+    'AT',
+    'AU',
+    'AW',
+    'AX',
+    'AZ',
+    'BA',
+    'BB',
+    'BD',
+    'BE',
+    'BF',
+    'BG',
+    'BH',
+    'BI',
+    'BJ',
+    'BL',
+    'BM',
+];

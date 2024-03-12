@@ -1,24 +1,19 @@
 import httpStatus from 'http-status';
 import config from '../../../config';
 import ApiError from '../../../utils/ApiError';
-import bcrypt from 'bcryptjs';
-import {
-  IAuth,
-  IAuthSignInWith,
-  ILoginUsers,
-  ILoginUsersResponse,
-} from './Auth.Interface';
+// import bcrypt from 'bcryptjs';
+import { IAuth, IAuthSignInWith, ILoginUsersResponse } from './Auth.Interface';
 import exactPhoneNumberAndCode from '../../../utils/extractcountrycode';
 
 import { Auth } from './Auth.Model';
 import { Secret } from 'jsonwebtoken';
 import { jwtHelpers } from '../../../helpers/jwt.Helpers';
 import { otpgenerate } from '../../../Services/generateOTP';
-import sendEmail from '../../../utils/sendEmail';
+// import sendEmail from '../../../utils/sendEmail';
 import { User } from '../User/User.Model';
 
 const signupWithPhoneNumber = async (
-  user: IAuth
+  user: IAuth,
 ): Promise<IAuthSignInWith | null> => {
   const { phoneNumber: userNumber, role } = user;
 
@@ -27,7 +22,7 @@ const signupWithPhoneNumber = async (
   if (!phoneNumber || !countryCode) {
     throw new ApiError(
       httpStatus.EXPECTATION_FAILED,
-      'Phone number and country code are required'
+      'Phone number and country code are required',
     );
   }
 
@@ -36,7 +31,7 @@ const signupWithPhoneNumber = async (
   if (existingUser) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      'Phone Number is already registered'
+      'Phone Number is already registered',
     );
   } else {
     const otp = otpgenerate.generateOTP();
@@ -58,7 +53,7 @@ const signupWithPhoneNumber = async (
     if (!data) {
       throw new ApiError(
         httpStatus.INTERNAL_SERVER_ERROR,
-        'internal server error'
+        'internal server error',
       );
     }
     return tempUser;
@@ -66,14 +61,14 @@ const signupWithPhoneNumber = async (
 };
 
 const signupverifyOtp = async (
-  payload: Partial<IAuth>
+  payload: Partial<IAuth>,
 ): Promise<ILoginUsersResponse | null> => {
   const { otp, phoneNumber: userPhoneNumber, role } = payload;
 
   if (!userPhoneNumber) {
     throw new ApiError(
       httpStatus.EXPECTATION_FAILED,
-      'Phone number is required'
+      'Phone number is required',
     );
   }
 
@@ -84,7 +79,7 @@ const signupverifyOtp = async (
   if (!otp || !phoneNumber || !countryCode || !role) {
     throw new ApiError(
       httpStatus.EXPECTATION_FAILED,
-      'Phone number and OTP are required'
+      'Phone number and OTP are required',
     );
   }
 
@@ -123,7 +118,7 @@ const signupverifyOtp = async (
   if (!newUser._id) {
     throw new ApiError(
       httpStatus.INTERNAL_SERVER_ERROR,
-      'internal server error'
+      'internal server error',
     );
   }
 
@@ -132,7 +127,7 @@ const signupverifyOtp = async (
   const token = jwtHelpers.createToken(
     { userId: _id, userNumber: userNumber, role: userRole },
     config.jwt.secret as Secret,
-    config.jwt.expires_in as string
+    config.jwt.expires_in as string,
   );
 
   return {
@@ -146,7 +141,7 @@ const signupverifyOtp = async (
 };
 
 const signinWithPhoneNumber = async (
-  user: IAuth
+  user: IAuth,
 ): Promise<IAuthSignInWith | null> => {
   const { phoneNumber: userNumber, role } = user;
 
@@ -155,7 +150,7 @@ const signinWithPhoneNumber = async (
   if (!phoneNumber || !countryCode || !role) {
     throw new ApiError(
       httpStatus.EXPECTATION_FAILED,
-      'Phone number and country code are required'
+      'Phone number and country code are required',
     );
   }
 
@@ -185,7 +180,7 @@ const signinWithPhoneNumber = async (
   if (!data) {
     throw new ApiError(
       httpStatus.INTERNAL_SERVER_ERROR,
-      'internal server error'
+      'internal server error',
     );
   }
 
@@ -200,7 +195,7 @@ const signinWithPhoneNumber = async (
 };
 
 const signinverifyOtp = async (
-  payload: Partial<IAuth>
+  payload: Partial<IAuth>,
 ): Promise<ILoginUsersResponse | null> => {
   const { otp, phoneNumber: userPhoneNumber, role } = payload;
 
@@ -213,7 +208,7 @@ const signinverifyOtp = async (
   if (!otp || !phoneNumber || !countryCode || !role || !otp) {
     throw new ApiError(
       httpStatus.EXPECTATION_FAILED,
-      'Phone number and OTP are required'
+      'Phone number and OTP are required',
     );
   }
 
@@ -248,7 +243,7 @@ const signinverifyOtp = async (
       role: isExistUser.role,
     },
     config.jwt.secret as Secret,
-    config.jwt.expires_in as string
+    config.jwt.expires_in as string,
   );
 
   return {
