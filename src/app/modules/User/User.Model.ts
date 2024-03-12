@@ -45,11 +45,11 @@ const userSchema = new Schema<IUser, UserModel>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 userSchema.statics.isNumberExist = async function (
-  phoneNumber: string
+  phoneNumber: string,
 ): Promise<Pick<IUser, 'email' | 'phoneNumber' | '_id'> | null> {
   return await User.findOne({ phoneNumber });
 };
@@ -62,7 +62,7 @@ userSchema.statics.isUserExist = async function (query: {
 };
 
 userSchema.statics.isResetPassword = async function (
-  hashedToken: string
+  hashedToken: string,
 ): Promise<IUser | null> {
   return this.findOne({
     passwordResetToken: hashedToken,
@@ -72,7 +72,7 @@ userSchema.statics.isResetPassword = async function (
 
 userSchema.statics.isPasswordMatched = async function (
   givenPassword: string,
-  savedPassword: string
+  savedPassword: string,
 ): Promise<boolean> {
   return await bcrypt.compare(givenPassword, savedPassword);
 };
@@ -98,7 +98,7 @@ userSchema.methods.ChangePasswordAfter = function (JWTTimestamp: number) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
       String(this.passwordChangedAt.getTime() / 1000),
-      10
+      10,
     );
 
     return JWTTimestamp < changedTimestamp;

@@ -1,7 +1,7 @@
-import { Schema, model } from "mongoose";
-import { IAuth, AuthModel } from "./Auth.Interface";
+import { Schema, model } from 'mongoose';
+import { IAuth, AuthModel } from './Auth.Interface';
 
-const AuthSchema = new Schema<IAuth>({
+const userSchema = new Schema<IAuth, AuthModel>({
   email: { type: String },
   password: { type: String },
   username: { type: String },
@@ -24,19 +24,19 @@ const AuthSchema = new Schema<IAuth>({
   createdAt: {
     type: Date,
     default: Date.now,
-    index: { expires: "2m" },
+    index: { expires: '2m' },
   },
 });
 
 userSchema.statics.isUserExist = async function (
-  phoneNumber: string
-): Promise<Pick<IAuth, "email" | "phoneNumber" | "_id"> | null> {
+  phoneNumber: string,
+): Promise<Pick<IAuth, 'email' | 'phoneNumber' | '_id'> | null> {
   return await Auth.findOne({ phoneNumber });
 };
 
 // userSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 });
 
-userSchema.pre("save", function (next) {
+userSchema.pre('save', function (next: () => void) {
   // Set the expiration time to 5 minutes from now
   // this.expireTimeAt = new Date();
   // this.expireTimeAt.setMinutes(this.expireTimeAt.getMinutes() + 1);
@@ -44,4 +44,4 @@ userSchema.pre("save", function (next) {
   next();
 });
 
-export const Auth = model<IAuth, AuthModel>("auth", userSchema);
+export const Auth = model<IAuth, AuthModel>('auth', userSchema);
