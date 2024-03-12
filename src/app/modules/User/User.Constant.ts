@@ -1,1 +1,1 @@
-export const Role = ['brand', 'influencer'];
+export const Role = ['patient', 'doctor'];
