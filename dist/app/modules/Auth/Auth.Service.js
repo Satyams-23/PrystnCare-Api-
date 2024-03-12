@@ -67,19 +67,19 @@ const signupverifyOtp = (payload) => __awaiter(void 0, void 0, void 0, function*
         .sort({ createdAt: -1 }) //sort by created date in descending order to get the latest record
         .limit(1); //get only one record from the top of the list of sorted records
     if (!isExist) {
-        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'Phone number not found');
+        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'otp expired ');
     }
     if (isExist.otp !== payload.otp) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'Invalid OTP');
     }
-    if (isExist.phoneNumber !== payload.phoneNumber) {
-        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'Invalid Phone number');
+    if (isExist.phoneNumber !== phoneNumber) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Invalid Phone number');
     }
-    if (isExist.role !== payload.role) {
-        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'Invalid role');
+    if (isExist.role !== role) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Invalid role');
     }
-    if (isExist.countryCode !== payload.countryCode) {
-        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'Invalid country code');
+    if (isExist.countryCode !== countryCode) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Invalid country code');
     }
     const newUser = yield User_Model_1.User.create({
         phoneNumber: phoneNumber,

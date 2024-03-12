@@ -88,23 +88,23 @@ const signupverifyOtp = async (
     .limit(1); //get only one record from the top of the list of sorted records
 
   if (!isExist) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Phone number not found');
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'otp expired ');
   }
 
   if (isExist.otp !== payload.otp) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid OTP');
   }
 
-  if (isExist.phoneNumber !== payload.phoneNumber) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid Phone number');
+  if (isExist.phoneNumber !== phoneNumber) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Phone number');
   }
 
-  if (isExist.role !== payload.role) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid role');
+  if (isExist.role !== role) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid role');
   }
 
-  if (isExist.countryCode !== payload.countryCode) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid country code');
+  if (isExist.countryCode !== countryCode) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid country code');
   }
 
   const newUser = await User.create({
