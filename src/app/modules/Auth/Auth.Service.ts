@@ -217,22 +217,22 @@ const signinverifyOtp = async (
     .limit(1);
 
   if (!isExistUser) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Phone number not found');
+    throw new ApiError(httpStatus.BAD_REQUEST, 'User not found');
   }
 
-  if (isExistUser.otp !== payload.otp) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid OTP');
+  if (isExistUser.otp !== otp) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid OTP');
   }
 
-  if (isExistUser.phoneNumber !== payload.phoneNumber) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid Phone number');
+  if (isExistUser.phoneNumber !== phoneNumber) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Phone number');
   }
 
   if (isExistUser.role !== payload.role) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid role');
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid role');
   }
 
-  if (isExistUser.countryCode !== payload.countryCode) {
+  if (isExistUser.countryCode !== countryCode) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid country code');
   }
 
