@@ -1,13 +1,13 @@
-import { ILoginUsersResponse } from './Auth.Interface';
+// import { ILoginUsersResponse } from './Auth.Interface';
 import catchAsync from '../../../middleware/catchAsyncError';
 import { Request, Response } from 'express';
 import sendResponse from '../../../Shared/sendResponse';
 import ApiError from '../../../utils/ApiError';
 import { AuthService } from './Auth.Service';
 import httpStatus from 'http-status';
-import sendEmail from '../../../utils/sendEmail';
-import axios from 'axios';
-import { send } from 'process';
+// import sendEmail from '../../../utils/sendEmail';
+// import axios from 'axios';
+// import { send } from 'process';
 
 const signupWithPhoneNumber = catchAsync(
   async (req: Request, res: Response) => {
@@ -31,7 +31,7 @@ const signupWithPhoneNumber = catchAsync(
         message: `${error}`,
       });
     }
-  }
+  },
 );
 
 const signupverifyOtp = catchAsync(async (req: Request, res: Response) => {
@@ -41,7 +41,7 @@ const signupverifyOtp = catchAsync(async (req: Request, res: Response) => {
     if (!data) {
       throw new ApiError(
         httpStatus.UNAUTHORIZED,
-        'Authorization Body is missing'
+        'Authorization Body is missing',
       );
     }
 
@@ -71,7 +71,7 @@ const signinWithPhoneNumber = catchAsync(
       if (!result) {
         throw new ApiError(
           httpStatus.INTERNAL_SERVER_ERROR,
-          'Internal Server Error'
+          'Internal Server Error',
         );
       }
       sendResponse(res, {
@@ -87,7 +87,7 @@ const signinWithPhoneNumber = catchAsync(
         message: `${error}`,
       });
     }
-  }
+  },
 );
 
 const signinverifyOtp = catchAsync(async (req: Request, res: Response) => {
@@ -97,7 +97,7 @@ const signinverifyOtp = catchAsync(async (req: Request, res: Response) => {
     if (!data) {
       throw new ApiError(
         httpStatus.UNAUTHORIZED,
-        'Authorization Body is missing'
+        'Authorization Body is missing',
       );
     }
 
