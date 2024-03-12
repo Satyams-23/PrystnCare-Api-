@@ -13,11 +13,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
+// import { ILoginUsersResponse } from './Auth.Interface';
 const catchAsyncError_1 = __importDefault(require("../../../middleware/catchAsyncError"));
 const sendResponse_1 = __importDefault(require("../../../Shared/sendResponse"));
 const ApiError_1 = __importDefault(require("../../../utils/ApiError"));
 const Auth_Service_1 = require("./Auth.Service");
 const http_status_1 = __importDefault(require("http-status"));
+// import sendEmail from '../../../utils/sendEmail';
+// import axios from 'axios';
+// import { send } from 'process';
 const signupWithPhoneNumber = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
     try {

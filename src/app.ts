@@ -17,16 +17,24 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); //
 app.use(cookieparser());
+app.use(express.static('public')); // means
 
 app.use(morgan('dev'));
 app.use(
   session({
-    secret: config.session_secret as string,
-    resave: false, //
+    secret: config.session_secret as string, // Generate a new secret key on server restart
+    resave: false,
     saveUninitialized: true,
-    cookie: { secure: false, httpOnly: true },
+    cookie: {
+      secure: false, // Set to true if your app is served over HTTPS
+      // maxAge: 1000 * 60 * 5,
+      httpOnly: true,
+    },
   }),
 );
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
 
 app.use('/api/v1/', routes);
 
