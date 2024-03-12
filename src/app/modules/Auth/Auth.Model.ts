@@ -20,6 +20,7 @@ const userSchema = new Schema<IAuth, AuthModel>({
   passwordResetExpires: { type: Date },
   passwordChangeAt: { type: Date },
   token: { type: String },
+  confirmpassword: { type: String },
 
   createdAt: {
     type: Date,

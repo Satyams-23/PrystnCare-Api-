@@ -149,18 +149,18 @@ const signinverifyOtp = (payload) => __awaiter(void 0, void 0, void 0, function*
         .sort({ createdAt: -1 })
         .limit(1);
     if (!isExistUser) {
-        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'Phone number not found');
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'User not found');
     }
-    if (isExistUser.otp !== payload.otp) {
-        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'Invalid OTP');
+    if (isExistUser.otp !== otp) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Invalid OTP');
     }
-    if (isExistUser.phoneNumber !== payload.phoneNumber) {
-        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'Invalid Phone number');
+    if (isExistUser.phoneNumber !== phoneNumber) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Invalid Phone number');
     }
     if (isExistUser.role !== payload.role) {
-        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'Invalid role');
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, 'Invalid role');
     }
-    if (isExistUser.countryCode !== payload.countryCode) {
+    if (isExistUser.countryCode !== countryCode) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'Invalid country code');
     }
     const accessToken = jwt_Helpers_1.jwtHelpers.createToken({

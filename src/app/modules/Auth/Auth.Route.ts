@@ -37,4 +37,30 @@ router.post(
   AuthController.signinverifyOtp,
 );
 
+router.post(
+  '/register',
+  validateRequest(AuthValidation.registerEmail),
+  AuthController.registerUser,
+);
+router.post(
+  '/verify-email',
+  validateRequest(AuthValidation.otpVerifyZodSchema),
+  AuthController.verifyEmail,
+);
+router.post(
+  '/login',
+  validateRequest(AuthValidation.loginEmail),
+  AuthController.loginEmailUser,
+);
+router.post(
+  '/forgot-password',
+  validateRequest(AuthValidation.forgotPassword),
+  AuthController.forgotPassword,
+);
+router.post(
+  '/reset-password',
+  validateRequest(AuthValidation.resetPassword),
+  AuthController.resetPassword,
+);
+
 export const AuthRoutes = router;

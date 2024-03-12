@@ -37,6 +37,7 @@ export type IAuthSignInWith = {
 export type ILoginUsers = {
   email: string;
   password: string;
+  confirmPassword: string;
   phoneNumber: string;
 };
 
@@ -48,7 +49,9 @@ export type IAuth = {
   _id: string;
   email: string;
   username: string;
-  password: string | undefined;
+  password: string;
+  confirmpassword: string;
+
   otp: string;
   phoneNumber: string;
   countryCode: string;
@@ -68,7 +71,7 @@ export type IAuth = {
   createPasswordResetToken(): Promise<string>;
   isPasswordMatched(
     candidatePassword: string,
-    userPassword: string
+    userPassword: string,
   ): Promise<boolean>;
   token: string;
 } & Document;
@@ -84,7 +87,7 @@ export type AuthModel = {
   createPasswordResetToken(): Promise<string>;
   isPasswordMatched(
     givenPassword: string,
-    savedPassword: string
+    savedPassword: string,
   ): Promise<boolean>;
 } & Model<IAuth>;
 
