@@ -18,13 +18,21 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true })); //
 app.use((0, cookie_parser_1.default)());
+app.use(express_1.default.static('public')); // means
 app.use((0, morgan_1.default)('dev'));
 app.use((0, express_session_1.default)({
-    secret: config_1.default.session_secret,
-    resave: false, //
+    secret: config_1.default.session_secret, // Generate a new secret key on server restart
+    resave: false,
     saveUninitialized: true,
-    cookie: { secure: false, httpOnly: true },
+    cookie: {
+        secure: false, // Set to true if your app is served over HTTPS
+        // maxAge: 1000 * 60 * 5,
+        httpOnly: true,
+    },
 }));
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
 app.use('/api/v1/', Routes_1.default);
 // Handle Error Handler
 app.use(globalErrorHandler_1.default);
