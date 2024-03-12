@@ -26,13 +26,11 @@ const moduleRoutes = [
   },
 ];
 
-moduleRoutes
-  .filter(route => route.route !== undefined)
-  .forEach(route => {
-    if (route.route) {
-      router.use(route.path, route.route);
-    }
-  });
+moduleRoutes.forEach(route => {
+  if (route.route) {
+    router.use(route.path, route.route);
+  }
+});
 
 // router.use('/users/', UserRoutes);
 // router.use('/academic-semesters', SemesterRoutes);

@@ -4,7 +4,7 @@ import validateRequest from '../../../middleware/validateRequest';
 import { AuthValidation } from './Auth.Validation';
 
 import cors from 'cors';
-import { Auth } from './Auth.Model';
+// import { Auth } from './Auth.Model';
 
 const router = express.Router();
 
@@ -12,8 +12,7 @@ router.post('/logout', AuthController.logoutUser);
 
 router.post(
   '/signup',
-  cors(),
-  validateRequest(AuthValidation.signUpsignInZodSchema),
+  // validateRequest(AuthValidation.signUpsignInZodSchema),
   AuthController.signupWithPhoneNumber,
 );
 
