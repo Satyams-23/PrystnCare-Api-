@@ -1,5 +1,5 @@
 import { Model, Document, ObjectId } from 'mongoose';
-import { Types } from 'mongoose';
+// import { Types } from 'mongoose';//
 
 export type IHashedToken = {
   hashedToken: string;
@@ -8,7 +8,8 @@ export type IUser = {
   _id: string;
   email: string;
   username: string;
-  password: string | undefined;
+  password: string;
+  confirmpassword: string;
   otp: string;
   phoneNumber: string;
   countryCode: string;
@@ -38,6 +39,6 @@ export type UserModel = {
   createPasswordResetToken(): Promise<string>;
   isPasswordMatched(
     givenPassword: string,
-    savedPassword: string
+    savedPassword: string,
   ): Promise<boolean>;
 } & Model<IUser>;

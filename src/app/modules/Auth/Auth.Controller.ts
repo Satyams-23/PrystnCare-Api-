@@ -137,10 +137,142 @@ const logoutUser = catchAsync(async (req: Request, res: Response) => {
   }
 });
 
+const registerUser = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body;
+  try {
+    const result = await AuthService.registerUser(data);
+
+    if (!result) {
+      throw new ApiError(
+        httpStatus.INTERNAL_SERVER_ERROR,
+        'Internal Server Error',
+      );
+    }
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'OTP sent successfully to your email address',
+      data: result,
+    });
+  } catch (error) {
+    sendResponse(res, {
+      statusCode: httpStatus.BAD_REQUEST,
+      success: false,
+      message: `${error}`,
+    });
+  }
+});
+
+const verifyEmail = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body;
+  try {
+    const result = await AuthService.verifyEmail(data);
+
+    if (!result) {
+      throw new ApiError(
+        httpStatus.UNAUTHORIZED,
+        'Authorization Body is missing',
+      );
+    }
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'User OTP verification successful and user created',
+      data: result,
+    });
+  } catch (error) {
+    sendResponse(res, {
+      statusCode: httpStatus.BAD_REQUEST,
+      success: false,
+      message: `${error}`,
+    });
+  }
+});
+
+const loginEmailUser = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body;
+  try {
+    const result = await AuthService.loginEmailUser(data);
+    if (!result) {
+      throw new ApiError(
+        httpStatus.INTERNAL_SERVER_ERROR,
+        'Internal Server Error',
+      );
+    }
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Login Successful',
+      data: result,
+    });
+  } catch (error) {
+    sendResponse(res, {
+      statusCode: httpStatus.BAD_REQUEST,
+      success: false,
+      message: `${error}`,
+    });
+  }
+});
+
+const forgotPassword = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body;
+  try {
+    const result = await AuthService.forgotPassword(data);
+    if (!result) {
+      throw new ApiError(
+        httpStatus.INTERNAL_SERVER_ERROR,
+        'Internal Server Error',
+      );
+    }
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Password reset OTP sent to your email address',
+      data: result,
+    });
+  } catch (error) {
+    sendResponse(res, {
+      statusCode: httpStatus.BAD_REQUEST,
+      success: false,
+      message: `${error}`,
+    });
+  }
+});
+
+const resetPassword = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body;
+  try {
+    const result = await AuthService.resetPassword(data);
+    if (!result) {
+      throw new ApiError(
+        httpStatus.INTERNAL_SERVER_ERROR,
+        'Internal Server Error',
+      );
+    }
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Password reset successful',
+      data: result,
+    });
+  } catch (error) {
+    sendResponse(res, {
+      statusCode: httpStatus.BAD_REQUEST,
+      success: false,
+      message: `${error}`,
+    });
+  }
+});
+
 export const AuthController = {
   signupWithPhoneNumber,
   signupverifyOtp,
   signinWithPhoneNumber,
   signinverifyOtp,
   logoutUser,
+  registerUser,
+  verifyEmail,
+  loginEmailUser,
+  forgotPassword,
+  resetPassword,
 };

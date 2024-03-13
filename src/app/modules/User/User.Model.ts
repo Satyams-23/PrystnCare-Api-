@@ -13,6 +13,9 @@ const userSchema = new Schema<IUser, UserModel>(
     countryCode: {
       type: String,
     },
+    confirmpassword: {
+      type: String,
+    },
     role: {
       type: String,
       enum: Role,

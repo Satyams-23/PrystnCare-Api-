@@ -27,5 +27,59 @@ const otpVerifyZodSchema = z.object({
     }),
   }),
 });
+//email
+const registerEmail = z.object({
+  body: z.object({
+    email: z.string({
+      required_error: 'Email is required',
+    }),
+    role: z.enum([...Role] as [string, ...string[]], {
+      required_error: 'Role is required',
+    }),
+    password: z.string({
+      required_error: 'Password is required',
+    }),
+  }),
+});
 
-export const AuthValidation = { signUpsignInZodSchema, otpVerifyZodSchema };
+const loginEmail = z.object({
+  body: z.object({
+    email: z.string({
+      required_error: 'Email is required',
+    }),
+    password: z.string({
+      required_error: 'Password is required',
+    }),
+    role: z.enum([...Role] as [string, ...string[]], {
+      required_error: 'Role is required',
+    }),
+  }),
+});
+
+const forgotPassword = z.object({
+  body: z.object({
+    email: z.string({
+      required_error: 'Email is required',
+    }),
+  }),
+});
+
+const resetPassword = z.object({
+  body: z.object({
+    password: z.string({
+      required_error: 'Password is required',
+    }),
+    confirmPassword: z.string({
+      required_error: 'Confirm Password is required',
+    }),
+  }),
+});
+
+export const AuthValidation = {
+  signUpsignInZodSchema,
+  otpVerifyZodSchema,
+  registerEmail,
+  loginEmail,
+  forgotPassword,
+  resetPassword,
+};
