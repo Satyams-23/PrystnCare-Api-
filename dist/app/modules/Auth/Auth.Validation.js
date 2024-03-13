@@ -28,4 +28,55 @@ const otpVerifyZodSchema = zod_1.z.object({
         }),
     }),
 });
-exports.AuthValidation = { signUpsignInZodSchema, otpVerifyZodSchema };
+//email
+const registerEmail = zod_1.z.object({
+    body: zod_1.z.object({
+        email: zod_1.z.string({
+            required_error: 'Email is required',
+        }),
+        role: zod_1.z.enum([...User_Constant_1.Role], {
+            required_error: 'Role is required',
+        }),
+        password: zod_1.z.string({
+            required_error: 'Password is required',
+        }),
+    }),
+});
+const loginEmail = zod_1.z.object({
+    body: zod_1.z.object({
+        email: zod_1.z.string({
+            required_error: 'Email is required',
+        }),
+        password: zod_1.z.string({
+            required_error: 'Password is required',
+        }),
+        role: zod_1.z.enum([...User_Constant_1.Role], {
+            required_error: 'Role is required',
+        }),
+    }),
+});
+const forgotPassword = zod_1.z.object({
+    body: zod_1.z.object({
+        email: zod_1.z.string({
+            required_error: 'Email is required',
+        }),
+    }),
+});
+const resetPassword = zod_1.z.object({
+    body: zod_1.z.object({
+        password: zod_1.z.string({
+            required_error: 'Password is required',
+        }),
+        confirmPassword: zod_1.z.string({
+            required_error: 'Confirm Password is required',
+        }),
+    }),
+});
+exports.AuthValidation = {
+    signUpsignInZodSchema,
+    otpVerifyZodSchema,
+    registerEmail,
+    loginEmail,
+    forgotPassword,
+    resetPassword,
+};

@@ -128,10 +128,125 @@ const logoutUser = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0
         });
     }
 }));
+const registerUser = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    try {
+        const result = yield Auth_Service_1.AuthService.registerUser(data);
+        if (!result) {
+            throw new ApiError_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, 'Internal Server Error');
+        }
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.OK,
+            success: true,
+            message: 'OTP sent successfully to your email address',
+            data: result,
+        });
+    }
+    catch (error) {
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.BAD_REQUEST,
+            success: false,
+            message: `${error}`,
+        });
+    }
+}));
+const verifyEmail = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    try {
+        const result = yield Auth_Service_1.AuthService.verifyEmail(data);
+        if (!result) {
+            throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'Authorization Body is missing');
+        }
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.OK,
+            success: true,
+            message: 'User OTP verification successful and user created',
+            data: result,
+        });
+    }
+    catch (error) {
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.BAD_REQUEST,
+            success: false,
+            message: `${error}`,
+        });
+    }
+}));
+const loginEmailUser = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    try {
+        const result = yield Auth_Service_1.AuthService.loginEmailUser(data);
+        if (!result) {
+            throw new ApiError_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, 'Internal Server Error');
+        }
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.OK,
+            success: true,
+            message: 'Login Successful',
+            data: result,
+        });
+    }
+    catch (error) {
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.BAD_REQUEST,
+            success: false,
+            message: `${error}`,
+        });
+    }
+}));
+const forgotPassword = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    try {
+        const result = yield Auth_Service_1.AuthService.forgotPassword(data);
+        if (!result) {
+            throw new ApiError_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, 'Internal Server Error');
+        }
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.OK,
+            success: true,
+            message: 'Password reset OTP sent to your email address',
+            data: result,
+        });
+    }
+    catch (error) {
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.BAD_REQUEST,
+            success: false,
+            message: `${error}`,
+        });
+    }
+}));
+const resetPassword = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    try {
+        const result = yield Auth_Service_1.AuthService.resetPassword(data);
+        if (!result) {
+            throw new ApiError_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, 'Internal Server Error');
+        }
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.OK,
+            success: true,
+            message: 'Password reset successful',
+            data: result,
+        });
+    }
+    catch (error) {
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.BAD_REQUEST,
+            success: false,
+            message: `${error}`,
+        });
+    }
+}));
 exports.AuthController = {
     signupWithPhoneNumber,
     signupverifyOtp,
     signinWithPhoneNumber,
     signinverifyOtp,
     logoutUser,
+    registerUser,
+    verifyEmail,
+    loginEmailUser,
+    forgotPassword,
+    resetPassword,
 };
