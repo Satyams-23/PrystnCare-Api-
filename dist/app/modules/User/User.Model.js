@@ -24,6 +24,9 @@ const userSchema = new mongoose_1.Schema({
     countryCode: {
         type: String,
     },
+    confirmpassword: {
+        type: String,
+    },
     role: {
         type: String,
         enum: User_Constant_1.Role,
