@@ -69,7 +69,7 @@ const resetPassword = z.object({
     password: z.string({
       required_error: 'Password is required',
     }),
-    confirmPassword: z.string({
+    confirmpassword: z.string({
       required_error: 'Confirm Password is required',
     }),
   }),

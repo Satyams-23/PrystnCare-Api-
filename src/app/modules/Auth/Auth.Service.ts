@@ -382,7 +382,7 @@ const loginEmailUser = async (
   user: IAuth,
 ): Promise<ILoginUsersResponse | null> => {
   const { email, password, role } = user;
-  const existingUser = await Auth.findOne({ email, role });
+  const existingUser = await User.findOne({ email, role });
   if (!existingUser) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
@@ -415,10 +415,11 @@ const forgotPassword = async (
   payload: Partial<IAuth>,
 ): Promise<ILoginUsersResponse | null> => {
   const { email, role } = payload;
+
   if (!email || !role) {
     throw new ApiError(httpStatus.EXPECTATION_FAILED, 'Email are required');
   }
-  const user = await Auth.findOne({ email, role });
+  const user = await User.findOne({ email, role });
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
@@ -455,7 +456,9 @@ const resetPassword = async (
 ): Promise<ILoginUsersResponse | null> => {
   const { email, role, otp, password, confirmpassword } = payload;
 
-  const user = await Auth.findOne({ email, role });
+  const user = await User.findOne({ email, role })
+    .sort({ createdAt: -1 })
+    .limit(1);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
@@ -483,10 +486,10 @@ const resetPassword = async (
   user.otp = undefined as unknown as string; // Explicitly cast undefined to string
   user.otpExpiration = undefined as unknown as Date; // Explicitly cast undefined to Date
 
-  await user.save();
-
   const resetmessage = `Your Password has been reset successfully`;
   await sendEmail(email, 'Password Reset Successfully', resetmessage);
+
+  await user.save();
 
   return user; //
 };

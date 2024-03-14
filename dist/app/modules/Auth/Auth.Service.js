@@ -267,7 +267,7 @@ const verifyEmail = (payload) => __awaiter(void 0, void 0, void 0, function* () 
 });
 const loginEmailUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password, role } = user;
-    const existingUser = yield Auth_Model_1.Auth.findOne({ email, role });
+    const existingUser = yield User_Model_1.User.findOne({ email, role });
     if (!existingUser) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
     }
@@ -294,7 +294,7 @@ const forgotPassword = (payload) => __awaiter(void 0, void 0, void 0, function* 
     if (!email || !role) {
         throw new ApiError_1.default(http_status_1.default.EXPECTATION_FAILED, 'Email are required');
     }
-    const user = yield Auth_Model_1.Auth.findOne({ email, role });
+    const user = yield User_Model_1.User.findOne({ email, role });
     if (!user) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
     }
@@ -317,7 +317,9 @@ const forgotPassword = (payload) => __awaiter(void 0, void 0, void 0, function* 
 });
 const resetPassword = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, role, otp, password, confirmpassword } = payload;
-    const user = yield Auth_Model_1.Auth.findOne({ email, role });
+    const user = yield User_Model_1.User.findOne({ email, role })
+        .sort({ createdAt: -1 })
+        .limit(1);
     if (!user) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
     }
@@ -337,9 +339,9 @@ const resetPassword = (payload) => __awaiter(void 0, void 0, void 0, function* (
     user.password = encryptedPassword;
     user.otp = undefined; // Explicitly cast undefined to string
     user.otpExpiration = undefined; // Explicitly cast undefined to Date
-    yield user.save();
     const resetmessage = `Your Password has been reset successfully`;
     yield (0, sendEmail_1.default)(email, 'Password Reset Successfully', resetmessage);
+    yield user.save();
     return user; //
 });
 const logoutUser = () => __awaiter(void 0, void 0, void 0, function* () {
