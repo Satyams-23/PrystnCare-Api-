@@ -38,7 +38,6 @@ export type ILoginUsers = {
   email: string;
   password: string;
   confirmPassword: string;
-  phoneNumber: string;
 };
 
 export type IHashedToken = {

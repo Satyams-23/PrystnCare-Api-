@@ -42,11 +42,8 @@ router.post(
   validateRequest(AuthValidation.registerEmail),
   AuthController.registerUser,
 );
-router.post(
-  '/verify-email',
-  validateRequest(AuthValidation.otpVerifyZodSchema),
-  AuthController.verifyEmail,
-);
+router.post('/verify-email', AuthController.verifyEmail);
+
 router.post(
   '/login',
   validateRequest(AuthValidation.loginEmail),

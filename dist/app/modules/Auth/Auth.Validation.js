@@ -67,7 +67,7 @@ const resetPassword = zod_1.z.object({
         password: zod_1.z.string({
             required_error: 'Password is required',
         }),
-        confirmPassword: zod_1.z.string({
+        confirmpassword: zod_1.z.string({
             required_error: 'Confirm Password is required',
         }),
     }),
