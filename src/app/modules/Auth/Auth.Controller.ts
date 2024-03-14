@@ -264,6 +264,56 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
   }
 });
 
+const registerResendOtp = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body;
+  try {
+    const result = await AuthService.registerresendotp(data);
+    if (!result) {
+      throw new ApiError(
+        httpStatus.INTERNAL_SERVER_ERROR,
+        'Internal Server Error',
+      );
+    }
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'OTP sent successfully to your email address',
+      data: result,
+    });
+  } catch (error) {
+    sendResponse(res, {
+      statusCode: httpStatus.BAD_REQUEST,
+      success: false,
+      message: `${error}`,
+    });
+  }
+});
+
+const forgotResendOtp = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body;
+  try {
+    const result = await AuthService.forgotresendotp(data);
+    if (!result) {
+      throw new ApiError(
+        httpStatus.INTERNAL_SERVER_ERROR,
+        'Internal Server Error',
+      );
+    }
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Password reset OTP sent to your email address',
+      data: result,
+    });
+  } catch (error) {
+    sendResponse(res, {
+      statusCode: httpStatus.BAD_REQUEST,
+      success: false,
+      message: `${error}`,
+    });
+  }
+});
+
 export const AuthController = {
   signupWithPhoneNumber,
   signupverifyOtp,
@@ -275,4 +325,6 @@ export const AuthController = {
   loginEmailUser,
   forgotPassword,
   resetPassword,
+  registerResendOtp,
+  forgotResendOtp,
 };

@@ -378,6 +378,40 @@ const verifyEmail = async (
   };
 };
 
+const registerresendotp = async (user: IAuth) => {
+  const { email, role, phoneNumber } = user;
+  const existingUser = await Auth.findOne({ email, role, phoneNumber })
+    .sort({ createdAt: -1 })
+    .limit(1);
+  if (!existingUser) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  const otp = otpgenerate.generateOTP();
+  existingUser.otp = otp;
+  existingUser.otpExpiration = new Date(Date.now() + 1 * 60 * 1000 * 60 * 24);
+
+  const data = await Auth.create({
+    email: email,
+    role: role,
+    phoneNumber: phoneNumber,
+    otp: otp,
+    otpExpiration: existingUser.otpExpiration,
+  });
+
+  if (!data) {
+    throw new ApiError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      'internal server error',
+    );
+  }
+
+  const message = `Your OTP is ${otp} and it will expire in 1 minutes`;
+  await sendEmail(email, 'Verification New Code', message);
+
+  return user;
+};
+
 const loginEmailUser = async (
   user: IAuth,
 ): Promise<ILoginUsersResponse | null> => {
@@ -494,6 +528,25 @@ const resetPassword = async (
   return user; //
 };
 
+const forgotresendotp = async (user: IAuth) => {
+  const { email, role } = user;
+  const existingUser = await User.findOne({ email, role });
+  if (!existingUser) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  const otp = otpgenerate.generateOTP();
+  user.otp = otp;
+  user.otpExpiration = new Date(Date.now() + 1 * 60 * 1000 * 60 * 24);
+
+  await user.save();
+
+  const message = `Your OTP is ${otp} and it will expire in 1 minutes`;
+  await sendEmail(email, 'Verification New Code', message);
+
+  return user;
+};
+
 const logoutUser = async () => {
   return null;
 };
@@ -509,4 +562,6 @@ export const AuthService = {
   loginEmailUser,
   forgotPassword,
   resetPassword,
+  registerresendotp,
+  forgotresendotp,
 };
