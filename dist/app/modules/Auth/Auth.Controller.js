@@ -238,6 +238,50 @@ const resetPassword = (0, catchAsyncError_1.default)((req, res) => __awaiter(voi
         });
     }
 }));
+const registerResendOtp = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    try {
+        const result = yield Auth_Service_1.AuthService.registerresendotp(data);
+        if (!result) {
+            throw new ApiError_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, 'Internal Server Error');
+        }
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.OK,
+            success: true,
+            message: 'OTP sent successfully to your email address',
+            data: result,
+        });
+    }
+    catch (error) {
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.BAD_REQUEST,
+            success: false,
+            message: `${error}`,
+        });
+    }
+}));
+const forgotResendOtp = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    try {
+        const result = yield Auth_Service_1.AuthService.forgotresendotp(data);
+        if (!result) {
+            throw new ApiError_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, 'Internal Server Error');
+        }
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.OK,
+            success: true,
+            message: 'Password reset OTP sent to your email address',
+            data: result,
+        });
+    }
+    catch (error) {
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.BAD_REQUEST,
+            success: false,
+            message: `${error}`,
+        });
+    }
+}));
 exports.AuthController = {
     signupWithPhoneNumber,
     signupverifyOtp,
@@ -249,4 +293,6 @@ exports.AuthController = {
     loginEmailUser,
     forgotPassword,
     resetPassword,
+    registerResendOtp,
+    forgotResendOtp,
 };

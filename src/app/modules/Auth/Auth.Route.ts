@@ -60,4 +60,7 @@ router.post(
   AuthController.resetPassword,
 );
 
+router.post('/register-resend-otp', AuthController.registerResendOtp);
+router.post('/forgot-resend-otp', AuthController.forgotResendOtp);
+
 export const AuthRoutes = router;

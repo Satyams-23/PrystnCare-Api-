@@ -23,4 +23,6 @@ router.post('/verify-email', Auth_Controller_1.AuthController.verifyEmail);
 router.post('/login', (0, validateRequest_1.default)(Auth_Validation_1.AuthValidation.loginEmail), Auth_Controller_1.AuthController.loginEmailUser);
 router.post('/forgot-password', (0, validateRequest_1.default)(Auth_Validation_1.AuthValidation.forgotPassword), Auth_Controller_1.AuthController.forgotPassword);
 router.post('/reset-password', (0, validateRequest_1.default)(Auth_Validation_1.AuthValidation.resetPassword), Auth_Controller_1.AuthController.resetPassword);
+router.post('/register-resend-otp', Auth_Controller_1.AuthController.registerResendOtp);
+router.post('/forgot-resend-otp', Auth_Controller_1.AuthController.forgotResendOtp);
 exports.AuthRoutes = router;

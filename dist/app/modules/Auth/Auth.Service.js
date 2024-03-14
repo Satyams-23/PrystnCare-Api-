@@ -265,6 +265,31 @@ const verifyEmail = (payload) => __awaiter(void 0, void 0, void 0, function* () 
         token: token,
     };
 });
+const registerresendotp = (user) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, role, phoneNumber } = user;
+    const existingUser = yield Auth_Model_1.Auth.findOne({ email, role, phoneNumber })
+        .sort({ createdAt: -1 })
+        .limit(1);
+    if (!existingUser) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
+    }
+    const otp = generateOTP_1.otpgenerate.generateOTP();
+    existingUser.otp = otp;
+    existingUser.otpExpiration = new Date(Date.now() + 1 * 60 * 1000 * 60 * 24);
+    const data = yield Auth_Model_1.Auth.create({
+        email: email,
+        role: role,
+        phoneNumber: phoneNumber,
+        otp: otp,
+        otpExpiration: existingUser.otpExpiration,
+    });
+    if (!data) {
+        throw new ApiError_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, 'internal server error');
+    }
+    const message = `Your OTP is ${otp} and it will expire in 1 minutes`;
+    yield (0, sendEmail_1.default)(email, 'Verification New Code', message);
+    return user;
+});
 const loginEmailUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password, role } = user;
     const existingUser = yield User_Model_1.User.findOne({ email, role });
@@ -344,6 +369,20 @@ const resetPassword = (payload) => __awaiter(void 0, void 0, void 0, function* (
     yield user.save();
     return user; //
 });
+const forgotresendotp = (user) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, role } = user;
+    const existingUser = yield User_Model_1.User.findOne({ email, role });
+    if (!existingUser) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
+    }
+    const otp = generateOTP_1.otpgenerate.generateOTP();
+    user.otp = otp;
+    user.otpExpiration = new Date(Date.now() + 1 * 60 * 1000 * 60 * 24);
+    yield user.save();
+    const message = `Your OTP is ${otp} and it will expire in 1 minutes`;
+    yield (0, sendEmail_1.default)(email, 'Verification New Code', message);
+    return user;
+});
 const logoutUser = () => __awaiter(void 0, void 0, void 0, function* () {
     return null;
 });
@@ -358,4 +397,6 @@ exports.AuthService = {
     loginEmailUser,
     forgotPassword,
     resetPassword,
+    registerresendotp,
+    forgotresendotp,
 };

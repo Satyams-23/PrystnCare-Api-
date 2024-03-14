@@ -1,8 +1,8 @@
 // import otpgenrate from 'otp-generator'
 
 function generateOTP() {
-  const lenght = 6;
-  let OTP = "";
+  const lenght = 4;
+  let OTP = '';
   for (let i = 0; i < lenght; i++) {
     OTP += Math.floor(Math.random() * 10);
   }
