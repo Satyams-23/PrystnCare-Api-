@@ -1,3 +1,13 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "cSpell.words": [
+        "cloudinary",
+        "doctorphoto",
+        "fileupload",
+        "forgotresendotp",
+        "pincode",
+        "signin",
+        "signinverify",
+        "signupverify"
+    ]
 }
