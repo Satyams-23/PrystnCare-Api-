@@ -5,7 +5,6 @@ export type IDoctor = {
   Name: string;
   About: string;
   photodoctor: string;
-
   specialization: string;
   experience: string;
   education: string;
@@ -27,10 +26,10 @@ export type Availability = {
   day: string;
   time: string;
 };
+
 export type review = {
   patientId: mongoose.Types.ObjectId;
   review: string;
-  reviews: string[];
 };
 
 export type Appointment = {

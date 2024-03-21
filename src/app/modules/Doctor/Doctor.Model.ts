@@ -1,6 +1,5 @@
-import mongoose, { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { DoctorModel, IDoctor } from './Doctor.Interface';
-// import { Schema } from 'zod';
 
 const DoctorSchema = new Schema<IDoctor>({
   Name: {
@@ -11,7 +10,6 @@ const DoctorSchema = new Schema<IDoctor>({
     type: String,
     required: true,
   },
-
   specialization: {
     type: String,
     required: true,
@@ -57,7 +55,12 @@ const DoctorSchema = new Schema<IDoctor>({
     required: true,
   },
   availability: {
-    type: Array, //
+    type: [
+      {
+        day: { type: String, required: true },
+        time: { type: String, required: true },
+      },
+    ],
     required: true,
   },
   rating: {
@@ -65,11 +68,23 @@ const DoctorSchema = new Schema<IDoctor>({
     required: true,
   },
   reviews: {
-    type: Array,
+    type: [
+      {
+        patientId: { type: String, required: true },
+        review: { type: String, required: true },
+      },
+    ],
     required: true,
   },
   appointments: {
-    type: Array,
+    type: [
+      {
+        date: { type: String, required: true },
+        time: { type: String, required: true },
+        patient: { type: String, required: true },
+        status: { type: String, required: true },
+      },
+    ],
     required: true,
   },
 });
